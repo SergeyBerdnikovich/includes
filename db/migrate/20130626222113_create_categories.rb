@@ -11,7 +11,7 @@ class CreateCategories < ActiveRecord::Migration
       t.string :image_tag
       t.string :url
     end
-      add_index :images, :categoryid
-      add_index :images, :account_id
+      add_index :categories, :categoryid
+      add_index :categories, :account_id
   end
 end

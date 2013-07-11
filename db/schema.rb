@@ -115,6 +115,9 @@ ActiveRecord::Schema.define(:version => 20130629104415) do
     t.string  "url"
   end
 
+  add_index "categories", ["account_id"], :name => "index_categories_on_account_id"
+  add_index "categories", ["categoryid"], :name => "index_categories_on_categoryid"
+
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
     t.integer  "attempts",   :default => 0

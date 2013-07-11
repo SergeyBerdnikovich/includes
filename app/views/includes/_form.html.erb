@@ -1,6 +1,6 @@
 <%= simple_form_for @include, :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.association  :include_type, as: :radio_buttons %>
-  
+
   <%= f.input :name %>
   <div id='include_types_options'></div>
 
@@ -20,7 +20,7 @@ alert("You are unable to use this option at <%= current_user.account.plan.name %
 })
  </script>
   <% end %>
-  
+
   <% else %>
 <label>Content is stored in file <%= link_to @include.include_file.url.gsub(/.*\//,""),@include.include_file.url,:target => "_blank" %></label><br>
  <%= f.input :remove_include_file, :as => :boolean, :label => 'Remove this file with update'%>
@@ -28,9 +28,9 @@ alert("You are unable to use this option at <%= current_user.account.plan.name %
 
   <% end %>
 
-  
 
-  
+
+
   <div class="form-actions">
 
     <%= f.button :submit, :class => 'btn-primary' %>
