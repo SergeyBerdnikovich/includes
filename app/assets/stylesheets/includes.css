@@ -1,0 +1,11 @@
+.new_include_button
+{
+	float:right;
+
+}
+
+.disable_comment{
+	margin-top: -20px !important;
+	color: #777777;
+	font-style:italic;
+}

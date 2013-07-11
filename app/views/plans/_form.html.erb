@@ -1,0 +1,114 @@
+<%= simple_form_for current_user.account.plan, :as => current_user.account.plan, :url => update_plan_path, :html => {:method => :put, :class => 'form-horizontal' } do |f| %>
+    <div class="modal-header">
+      
+      <h3>Change Plan</h3>
+    </div>
+    <div class="modal-body">
+    	<h5>Your current plan - <%= current_user.account.plan.name %></h5>
+      <table class='table table-bordered'>
+        <tr>
+          <th>
+          </th>
+          <% Plan.all.each do |plan|%>
+          <th>
+            <%= plan.name %>
+          </th>
+        <% end %>
+        </tr>
+
+         <tr>
+          <th>Price</th>
+          <% Plan.all.each do |plan|%>
+          <th>
+            $<%= plan.price %>
+          </th>
+        <% end %>
+        </tr>
+
+        <tr>
+          <th>Indludes</th>
+          <% Plan.all.each do |plan|%>
+          <th>
+            <%= limits(plan.includes) %>
+          </th>
+        <% end %>
+        </tr>
+
+         <tr>
+          <th>Impressions per Month</th>
+          <% Plan.all.each do |plan|%>
+          <th>
+            <%= limits(plan.impressions) %>
+          </th>
+        <% end %>
+        </tr>
+
+         <tr>
+          <th>Api Shortcodes</th>
+          <% Plan.all.each do |plan|%>
+          <th>
+            <%= plan.api_shortcodes? ? 'Yes' : 'No' %>
+          </th>
+        <% end %>
+        </tr>
+
+
+        <tr>
+          <th>HTML Uploads</th>
+          <% Plan.all.each do |plan|%>
+          <th>
+            <%= plan.html_uploads? ? 'Yes' : 'No' %>
+          </th>
+        <% end %>
+        </tr>
+
+
+         <tr>
+          <th>Advanced Includes Logic</th>
+          <% Plan.all.each do |plan|%>
+          <th>
+            <%= plan.advanced_logic? ? 'Yes' : 'No' %>
+          </th>
+        <% end %>
+        </tr>
+
+        <tr>
+          <th>Support</th>
+          <% Plan.all.each do |plan|%>
+          <th>
+            <%= plan.support %>
+          </th>
+        <% end %>
+        </tr>
+
+
+         <tr>
+          <th></th>
+          <% Plan.all.each do |plan|%>          
+          <td>
+            <% possible = plan_possible(plan) %>
+            <% if possible == true or plan == current_user.account.plan %> 
+
+          <label for='plan<%= plan.id %>'>Choose <%= plan.name %></label> <input id='plan<%= plan.id %>' type="radio" name="plan_id" <% if plan == current_user.account.plan %>      checked="checked"
+          <% end %> value="<%= plan.id %>">
+
+          <% else %>
+
+          <%= possible.html_safe %>
+          
+          <% end %>
+
+          </td>
+          
+        <% end %>
+        </tr>    
+      </table>
+    </div>
+  
+
+  
+    <div class="modal-footer">
+      <%= f.submit "Change Plan", :class => "btn btn-primary" %>
+      <a class="btn" data-dismiss="modal" href="#">Close</a>
+    </div>
+  <% end %>

@@ -1,0 +1,13 @@
+<h2>You have been registered at Includes.io</h2>
+
+Congrats!<p>
+
+You have been register by <%= @current_user.name %> <p>
+<% unless @comment.blank? %>
+ <%= @current_user.name %> send you a message:<p>
+ <%= @comment %><p>
+<% end %>
+
+To set up password and access your account please follow this link - <a href='http://includes.io/users/password/edit?reset_password_token=<%= @user.reset_password_token %>'><b>set up password and enter account</b></a> <p>
+
+Thanks!

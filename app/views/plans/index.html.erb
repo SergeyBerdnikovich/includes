@@ -1,0 +1,27 @@
+<h1>Listing bigcommerces</h1>
+
+<table>
+  <tr>
+    <th>Store url</th>
+    <th>Username</th>
+    <th>Api key</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @bigcommerces.each do |bigcommerce| %>
+  <tr>
+    <td><%= bigcommerce.store_url %></td>
+    <td><%= bigcommerce.username %></td>
+    <td><%= bigcommerce.api_key %></td>
+    <td><%= link_to 'Show', bigcommerce %></td>
+    <td><%= link_to 'Edit', edit_bigcommerce_path(bigcommerce) %></td>
+    <td><%= link_to 'Destroy', bigcommerce, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Bigcommerce', new_bigcommerce_path %>

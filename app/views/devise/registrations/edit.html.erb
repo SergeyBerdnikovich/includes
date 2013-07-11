@@ -1,0 +1,140 @@
+<% content_for :head do %>
+  <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
+<% end %>
+<h2>Account</h2>
+<div id="stripe_error" class="alert alert-error" style="display:none" ></div>
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-vertical' }) do |f| %>
+  <%= f.error_notification %>
+  <%= display_base_errors resource %>
+  <%= f.input :name, :autofocus => true %>
+  <%= f.input :email, :required => true %>
+  <%= f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false %>
+  <%= f.input :password_confirmation, :required => false %>
+  <%= f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true %>
+  <%= f.button :submit, 'Update', :class => 'btn-primary' %>
+<% end %>
+
+<h3>Users of account:</h3>
+<p>
+   <table class="table table-bordered">
+  <tr>
+  <th>Username</th><th>Email</th><th>Actions</th>
+  </tr> 
+  <% current_user.account.users.each do |user|%>
+  <tr>
+  <td><%= user.name %></td><td><%= user.email %></td><td>
+  <% if current_user != user %>
+  <%= button_to "Delete", user_path(user),:method => :delete, :class => "btn btn-danger", :confirm => "Are you sure you want to delete #{user.name} ( #{user.email} ) ?" %>
+  <% end %>
+  </td>
+   
+  </tr> 
+  <% end %>
+  </table>
+   <%= link_to "Add new user", new_user_path(), :class => 'btn btn-mini'%>
+
+</p>
+<h3>Bigcommerce API</h3>
+<p>
+
+  <% if @user.account.bigcommerce_account %>
+  <table class="table table-bordered">
+  <tr>
+  <th>Username:</th><td> <%= @user.account.bigcommerce_account.username.titleize %></td>
+  </tr> 
+  <tr>
+  <th>Store_url:</th><td> <%= @user.account.bigcommerce_account.store_url.titleize %></td>
+  </tr> 
+  <tr>
+  <th>API Key:</th><td> <%= @user.account.bigcommerce_account.api_key.titleize %></td>
+  </tr> 
+  </table>
+  <%= link_to "Redownload bigcommerce data", bigcommerce_account_path(@user.account.bigcommerce_account), :class => 'btn btn-mini', :alert => 'Bigcommerce data is queued to be downloaded' %>
+  <% else %>
+  You don't set up Bigcommerce API
+  <% end %>
+  
+  <%= link_to "Setup Bigcommerce API", bigcommerce_accounts_path(), :class => 'btn btn-mini'%>
+</p>
+
+
+<h3>Subscription Plan</h3>
+<p>
+  <% if @user.account.plan %>
+  <% plan =  @user.account.plan %>
+<table class='table table-bordered'>
+        <tr>
+          <th>Plan name
+          </th>
+          <th>
+            <%= plan.name %>
+          </th>
+        </tr>
+         <tr>
+          <th>Price</th>
+          <td>
+            $<%= plan.price %>
+          </td>
+        </tr>
+        <tr>
+          <th>Indludes</th>
+          <td>
+            <%= plan.includes %>
+          </td>
+        </tr>
+         <tr>
+          <th>Impressions per Month</th>
+          <td>
+            <%= plan.impressions %>
+          </td>
+        </tr>
+         <tr>
+          <th>Api Shortcodes</th>
+          <td>
+            <%= plan.api_shortcodes? ? 'Yes' : 'No' %>
+          </td>
+        </tr>
+        <tr>
+          <th>HTML Uploads</th>
+          <td>
+            <%= plan.html_uploads? ? 'Yes' : 'No' %>
+          </td>       
+        </tr>
+         <tr>
+          <th>Advanced Includes Logic</th>
+          <td>
+            <%= plan.advanced_logic? ? 'Yes' : 'No' %>
+          </td>
+        </tr>
+        <tr>
+          <th>Support</th>
+          <td>
+            <%= plan.support %>
+          </td>
+        </tr>
+    </table>
+  <% else %>
+  You don't have subscription plan
+  <% end %>
+  
+  <a href="<%= plans_path() %>" class="btn btn-mini" type="button">Change plan</a>
+  
+</p>
+
+<h3>Card</h3>
+<p>
+  <% if @user.account.last_4_digits %>
+  Using card ending with <%= @user.account.last_4_digits %>
+  <a  href="<%= plans_card_path %>" class="btn btn-mini" type="button">Change card</a>
+  <% else %>
+  You don't have credit card attached to your account. To set up credit card please click - 
+  <a  href="<%= plans_card_path %>" id="carddata" class="btn btn-mini" type="button">Setup card</a>
+  <% end %>
+  
+</p>
+
+<h3>Cancel my account</h3>
+
+<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini' %></p>
+
+

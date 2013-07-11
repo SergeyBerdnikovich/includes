@@ -1,0 +1,35 @@
+<%- model_class = Statistic -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+
+<%= form_tag statistics_path(), :method => :get do |f|%>
+
+<%= label_tag 'date_from', 'Start date' %>
+<%= text_field_tag 'date_from', @date_from, :class => 'datepicker' %>
+<%= label_tag 'date_to', 'End date' %>
+<%= text_field_tag 'date_to',  @date_to, :class => 'datepicker' %>
+
+<br>
+
+<%= submit_tag "Show", :class => 'btn btn-primary', :name => "" %>
+
+<% end %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:date) %></th>
+      <th><%= model_class.human_attribute_name(:views) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @statistics.each do |statistic| %>
+      <tr>        
+        <td><%= link_to statistic.date, statistic_show_path(:date => statistic.date) %></td>
+        <td><%= statistic.views %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

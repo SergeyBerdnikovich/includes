@@ -1,0 +1,31 @@
+<%- model_class = Statistic -%>
+<div class="page-header">
+  <h1>Statisitc for <%= parse_short_date(@date).strftime('%Y-%m-%d') %></h1>
+</div>
+
+<br>
+
+<%= button_to "Back", :back, :class => 'btn btn-primary', :method => 'get' %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Include ID</th>
+      <th>Name</th>
+      <th><%= model_class.human_attribute_name(:date) %></th>
+      <th><%= model_class.human_attribute_name(:views) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @statistics.each do |statistic| %>
+      <tr>        
+        <td><%= statistic.include.id %></td>
+        <td><%= statistic.include.name %></td>
+        <td><%= statistic.date %></td>
+        <td><%= statistic.views %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

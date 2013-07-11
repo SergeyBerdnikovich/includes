@@ -1,0 +1,2 @@
+class IncludeoptionsController < ApplicationController
+end

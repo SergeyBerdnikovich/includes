@@ -1,0 +1,69 @@
+<%- model_class = Include -%>
+<div class="page-header">
+  <div class='new_include_button'>
+    <% if new_include_possible(current_user) %>
+  <%= link_to "<span class='btn btn-primary'>Add a New Include</span>".html_safe,
+            new_include_path %>
+    <% else %>
+    Creating of new includes isn't possible - you are at the limit.<br>
+    Please change your plan in order to have more includes.
+    <% end %>
+  </div>
+  <h1>Your includes</h1>
+</div>
+
+    <% @include_types.each do |include_type| %>
+    <h3><%= include_type.name %></h3>
+    <% @includes = current_user.account.includes.where("include_type_id = ?", include_type.id) %>
+          <% if include_type.des_instead_of_name != true %>
+     <%= process_description(include_type.des, include_type).html_safe %>
+      <% end %> 
+    <table class="table table-striped">
+
+      <tr>
+        <th>Name</th>
+        <% include_type.options.where("show_in_index != 0").each do |option| %>
+        <th><%= option.title %></th>
+        <% end %>
+
+        <th>Content</th>
+        
+        <th>Edit</th>
+     </tr>
+        <% @includes.each do |inc| %>
+      <tr>
+        <td> 
+            <% if include_type.des_instead_of_name != true %>
+            <%= inc.name %><br>
+            <% else %>            
+            <%= process_description(inc.include_type.des, inc).html_safe %>
+            <% end %>
+        </td>
+        <% include_type.options.where("show_in_index != 0").each do |option| %>
+        <td><%= get_option_value(option.id, inc.id) %></td>
+        <% end %>
+
+        <td>
+  
+
+<% if inc.include_file.blank? %>
+          <%= inc.content %>
+  <% else %>
+Content is stored in file <%= link_to inc.include_file.url.gsub(/.*\//,""),inc.include_file.url,:target => "_blank" %>
+
+  <% end %>
+
+        </td>
+        
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_include_path(inc), class: 'new-something-class', id: 'new-something-id' %>
+        </td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <% end %>
+  
+
+

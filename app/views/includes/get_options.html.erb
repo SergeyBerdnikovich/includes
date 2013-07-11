@@ -1,0 +1,22 @@
+ <% @options.each do |option| %>
+   <div class="control-group text optional include_content">
+   	<label class="string optional control-label" for='<%= option.name %>'><%= option.title %></label><div class="controls"> 
+    <% if option.option_type.name == "select" %>
+     <%= generate_select(option,@include_id) %>
+    <% elsif  option.option_type.name == "boolean"  %>
+    <%= check_box_tag "options[#{option.id}]",nil, get_option_value(option.id, @include_id, true), :class => "checkbox optional" %>
+    <% elsif  option.option_type.name == "datetime"  %>
+        
+        <input id="<%= option.name %>" name="options[<%= option.id %>]" type="datetime" value="<%= get_option_value(option.id, @include_id, true) %>" class='"datepicker optional"' />
+          <script>
+  $(function() {
+    $("#<%= option.name %>").datepicker();
+  });
+  </script>
+
+    <% else %>
+    <input type='text' class="string optional" value='<%= get_option_value(option.id, @include_id, true) %>' name='options[<%= option.id %>]'>
+    <% end %>
+</div></div>
+ <% end %>
+

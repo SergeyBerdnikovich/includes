@@ -1,0 +1,48 @@
+<%= simple_form_for @include, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.association  :include_type, as: :radio_buttons %>
+  
+  <%= f.input :name %>
+  <div id='include_types_options'></div>
+
+  <% if @include.include_file.blank? %>
+
+  <%= f.input :content, as: :text %>
+  <% possible = action_possible(:html_uploads) %>
+  <% if possible == true %>
+  <%= f.input  :include_file, :as => :file %>
+  <% else %>
+  <%= f.input :include_file, :as => :file, :disabled => true %>
+ <div id='disable_div'style="position:relative; z-index:9999;left:0; right:0; margin-top:-50px; bottom:0;height:50px;cursor:not-allowed"></div>
+ <div class="controls disable_comment"><%= possible %> </div>
+ <script type="text/javascript">
+$('#disable_div').click(function(){
+alert("You are unable to use this option at <%= current_user.account.plan.name %> plan.\r\n <%= j(possible).html_safe %> \r\nPlease go to SETTINGS menu and upgrade your plan to be able to use this option.")
+})
+ </script>
+  <% end %>
+  
+  <% else %>
+<label>Content is stored in file <%= link_to @include.include_file.url.gsub(/.*\//,""),@include.include_file.url,:target => "_blank" %></label><br>
+ <%= f.input :remove_include_file, :as => :boolean, :label => 'Remove this file with update'%>
+<%= f.input  :include_file, :as => :file, :label => 'Replace file' %>
+
+  <% end %>
+
+  
+
+  
+  <div class="form-actions">
+
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                includes_path, :class => 'btn' %>
+    <% if params[:action] == 'edit' %>
+                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      include_path(@include),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }            %>
+                      <% end %>
+
+  </div>
+
+<% end %>

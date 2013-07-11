@@ -1,0 +1,21 @@
+<%- model_class = Include -%>
+<div class="page-header">
+  <h1>Create new users</h1>
+  <h4>of account <%= current_user.account.name %></h4>
+</div>
+
+<%= simple_form_for @user, :html => { :class => 'form-horizontal' }, :url => users_attach_path, :method => :post do |f| %>
+ 
+  <%= f.input :name %>
+  <%= f.input :email %>
+   <div class="control-group text optional "><label class="text optional control-label" for="comment">Invite message</label><div class="controls"><textarea class="text optional" cols="40" id="comment" name="comment" rows="20">
+</textarea></div></div>
+
+  
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                includes_path, :class => 'btn' %>
+  </div>
+
+<% end %>

@@ -1,0 +1,2 @@
+class IncludeTypesController < ApplicationController
+end

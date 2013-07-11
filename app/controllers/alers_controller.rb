@@ -1,0 +1,2 @@
+class AlersController < ApplicationController
+end

@@ -1,0 +1,13 @@
+<%= simple_form_for(@bigcommerce) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :store_url %>
+    <%= f.input :username %>
+    <%= f.input :api_key %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

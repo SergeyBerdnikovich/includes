@@ -1,0 +1,2 @@
+module IncludeTypesHelper
+end

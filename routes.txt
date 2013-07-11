@@ -1,0 +1,220 @@
+                               accounts GET        /accounts(.:format)                                accounts#index
+                                        POST       /accounts(.:format)                                accounts#create
+                            new_account GET        /accounts/new(.:format)                            accounts#new
+                           edit_account GET        /accounts/:id/edit(.:format)                       accounts#edit
+                                account GET        /accounts/:id(.:format)                            accounts#show
+                                        PUT        /accounts/:id(.:format)                            accounts#update
+                                        DELETE     /accounts/:id(.:format)                            accounts#destroy
+                           option_types GET        /option_types(.:format)                            option_types#index
+                                        POST       /option_types(.:format)                            option_types#create
+                        new_option_type GET        /option_types/new(.:format)                        option_types#new
+                       edit_option_type GET        /option_types/:id/edit(.:format)                   option_types#edit
+                            option_type GET        /option_types/:id(.:format)                        option_types#show
+                                        PUT        /option_types/:id(.:format)                        option_types#update
+                                        DELETE     /option_types/:id(.:format)                        option_types#destroy
+                   bigcommerce_accounts GET        /bigcommerce_accounts(.:format)                    bigcommerce_accounts#index
+                                        POST       /bigcommerce_accounts(.:format)                    bigcommerce_accounts#create
+                new_bigcommerce_account GET        /bigcommerce_accounts/new(.:format)                bigcommerce_accounts#new
+               edit_bigcommerce_account GET        /bigcommerce_accounts/:id/edit(.:format)           bigcommerce_accounts#edit
+                    bigcommerce_account GET        /bigcommerce_accounts/:id(.:format)                bigcommerce_accounts#show
+                                        PUT        /bigcommerce_accounts/:id(.:format)                bigcommerce_accounts#update
+                                        DELETE     /bigcommerce_accounts/:id(.:format)                bigcommerce_accounts#destroy
+                        include_options GET        /include_options(.:format)                         include_options#index
+                                        POST       /include_options(.:format)                         include_options#create
+                     new_include_option GET        /include_options/new(.:format)                     include_options#new
+                    edit_include_option GET        /include_options/:id/edit(.:format)                include_options#edit
+                         include_option GET        /include_options/:id(.:format)                     include_options#show
+                                        PUT        /include_options/:id(.:format)                     include_options#update
+                                        DELETE     /include_options/:id(.:format)                     include_options#destroy
+                         includeoptions GET        /includeoptions(.:format)                          includeoptions#index
+                                        POST       /includeoptions(.:format)                          includeoptions#create
+                      new_includeoption GET        /includeoptions/new(.:format)                      includeoptions#new
+                     edit_includeoption GET        /includeoptions/:id/edit(.:format)                 includeoptions#edit
+                          includeoption GET        /includeoptions/:id(.:format)                      includeoptions#show
+                                        PUT        /includeoptions/:id(.:format)                      includeoptions#update
+                                        DELETE     /includeoptions/:id(.:format)                      includeoptions#destroy
+                                options GET        /options(.:format)                                 options#index
+                                        POST       /options(.:format)                                 options#create
+                             new_option GET        /options/new(.:format)                             options#new
+                            edit_option GET        /options/:id/edit(.:format)                        options#edit
+                                 option GET        /options/:id(.:format)                             options#show
+                                        PUT        /options/:id(.:format)                             options#update
+                                        DELETE     /options/:id(.:format)                             options#destroy
+                                 brands GET        /brands(.:format)                                  brands#index
+                                        POST       /brands(.:format)                                  brands#create
+                              new_brand GET        /brands/new(.:format)                              brands#new
+                             edit_brand GET        /brands/:id/edit(.:format)                         brands#edit
+                                  brand GET        /brands/:id(.:format)                              brands#show
+                                        PUT        /brands/:id(.:format)                              brands#update
+                                        DELETE     /brands/:id(.:format)                              brands#destroy
+                          include_types GET        /include_types(.:format)                           include_types#index
+                                        POST       /include_types(.:format)                           include_types#create
+                       new_include_type GET        /include_types/new(.:format)                       include_types#new
+                      edit_include_type GET        /include_types/:id/edit(.:format)                  include_types#edit
+                           include_type GET        /include_types/:id(.:format)                       include_types#show
+                                        PUT        /include_types/:id(.:format)                       include_types#update
+                                        DELETE     /include_types/:id(.:format)                       include_types#destroy
+                             statistics GET        /statistics(.:format)                              statistics#index
+                                        POST       /statistics(.:format)                              statistics#create
+                          new_statistic GET        /statistics/new(.:format)                          statistics#new
+                         edit_statistic GET        /statistics/:id/edit(.:format)                     statistics#edit
+                              statistic GET        /statistics/:id(.:format)                          statistics#show
+                                        PUT        /statistics/:id(.:format)                          statistics#update
+                                        DELETE     /statistics/:id(.:format)                          statistics#destroy
+                         statistic_show            /statistic/show(.:format)                          statistics#show
+                           users_attach            /users/attach(.:format)                            users#attach
+                   includes_get_options            /includes/get_options(.:format)                    includes#get_options
+                               includes GET        /includes(.:format)                                includes#index
+                                        POST       /includes(.:format)                                includes#create
+                            new_include GET        /includes/new(.:format)                            includes#new
+                           edit_include GET        /includes/:id/edit(.:format)                       includes#edit
+                                include GET        /includes/:id(.:format)                            includes#show
+                                        PUT        /includes/:id(.:format)                            includes#update
+                                        DELETE     /includes/:id(.:format)                            includes#destroy
+                           stripe_event            /stripe                                            StripeEvent::Engine
+                           content_gold GET        /content/gold(.:format)                            content#gold
+                         content_silver GET        /content/silver(.:format)                          content#silver
+                       content_platinum GET        /content/platinum(.:format)                        content#platinum
+                                   root            /                                                  home#index
+                                   root            /                                                  home#index
+                              dashboard GET        /dashboard(.:format)                               dashboard#index
+                                        GET        /includes(.:format)                                dashboard#inclu
+                       new_user_session GET        /users/sign_in(.:format)                           devise/sessions#new
+                           user_session POST       /users/sign_in(.:format)                           devise/sessions#create
+                   destroy_user_session DELETE     /users/sign_out(.:format)                          devise/sessions#destroy
+                          user_password POST       /users/password(.:format)                          devise/passwords#create
+                      new_user_password GET        /users/password/new(.:format)                      devise/passwords#new
+                     edit_user_password GET        /users/password/edit(.:format)                     devise/passwords#edit
+                                        PUT        /users/password(.:format)                          devise/passwords#update
+               cancel_user_registration GET        /users/cancel(.:format)                            registrations#cancel
+                      user_registration POST       /users(.:format)                                   registrations#create
+                  new_user_registration GET        /users/sign_up(.:format)                           registrations#new
+                 edit_user_registration GET        /users/edit(.:format)                              registrations#edit
+                                        PUT        /users(.:format)                                   registrations#update
+                                        DELETE     /users(.:format)                                   registrations#destroy
+                            update_plan PUT        /update_plan(.:format)                             registrations#update_plan
+                            update_card PUT        /update_card(.:format)                             registrations#update_card
+                                  users GET        /users(.:format)                                   users#index
+                                        POST       /users(.:format)                                   users#create
+                               new_user GET        /users/new(.:format)                               users#new
+                              edit_user GET        /users/:id/edit(.:format)                          users#edit
+                                   user GET        /users/:id(.:format)                               users#show
+                                        PUT        /users/:id(.:format)                               users#update
+                                        DELETE     /users/:id(.:format)                               users#destroy
+                             admin_root            /admin(.:format)                                   admin/dashboard#index
+                                   root            /                                                  dashboard#index
+     batch_action_admin_include_options POST       /admin/include_options/batch_action(.:format)      admin/include_options#batch_action
+                  admin_include_options GET        /admin/include_options(.:format)                   admin/include_options#index
+                                        POST       /admin/include_options(.:format)                   admin/include_options#create
+               new_admin_include_option GET        /admin/include_options/new(.:format)               admin/include_options#new
+              edit_admin_include_option GET        /admin/include_options/:id/edit(.:format)          admin/include_options#edit
+                   admin_include_option GET        /admin/include_options/:id(.:format)               admin/include_options#show
+                                        PUT        /admin/include_options/:id(.:format)               admin/include_options#update
+                                        DELETE     /admin/include_options/:id(.:format)               admin/include_options#destroy
+          batch_action_admin_statistics POST       /admin/statistics/batch_action(.:format)           admin/statistics#batch_action
+                       admin_statistics GET        /admin/statistics(.:format)                        admin/statistics#index
+                                        POST       /admin/statistics(.:format)                        admin/statistics#create
+                    new_admin_statistic GET        /admin/statistics/new(.:format)                    admin/statistics#new
+                   edit_admin_statistic GET        /admin/statistics/:id/edit(.:format)               admin/statistics#edit
+                        admin_statistic GET        /admin/statistics/:id(.:format)                    admin/statistics#show
+                                        PUT        /admin/statistics/:id(.:format)                    admin/statistics#update
+                                        DELETE     /admin/statistics/:id(.:format)                    admin/statistics#destroy
+        batch_action_admin_option_types POST       /admin/option_types/batch_action(.:format)         admin/option_types#batch_action
+                     admin_option_types GET        /admin/option_types(.:format)                      admin/option_types#index
+                                        POST       /admin/option_types(.:format)                      admin/option_types#create
+                  new_admin_option_type GET        /admin/option_types/new(.:format)                  admin/option_types#new
+                 edit_admin_option_type GET        /admin/option_types/:id/edit(.:format)             admin/option_types#edit
+                      admin_option_type GET        /admin/option_types/:id(.:format)                  admin/option_types#show
+                                        PUT        /admin/option_types/:id(.:format)                  admin/option_types#update
+                                        DELETE     /admin/option_types/:id(.:format)                  admin/option_types#destroy
+              batch_action_admin_brands POST       /admin/brands/batch_action(.:format)               admin/brands#batch_action
+                           admin_brands GET        /admin/brands(.:format)                            admin/brands#index
+                                        POST       /admin/brands(.:format)                            admin/brands#create
+                        new_admin_brand GET        /admin/brands/new(.:format)                        admin/brands#new
+                       edit_admin_brand GET        /admin/brands/:id/edit(.:format)                   admin/brands#edit
+                            admin_brand GET        /admin/brands/:id(.:format)                        admin/brands#show
+                                        PUT        /admin/brands/:id(.:format)                        admin/brands#update
+                                        DELETE     /admin/brands/:id(.:format)                        admin/brands#destroy
+                        admin_dashboard            /admin/dashboard(.:format)                         admin/dashboard#index
+            batch_action_admin_includes POST       /admin/includes/batch_action(.:format)             admin/includes#batch_action
+                         admin_includes GET        /admin/includes(.:format)                          admin/includes#index
+                                        POST       /admin/includes(.:format)                          admin/includes#create
+                      new_admin_include GET        /admin/includes/new(.:format)                      admin/includes#new
+                     edit_admin_include GET        /admin/includes/:id/edit(.:format)                 admin/includes#edit
+                          admin_include GET        /admin/includes/:id(.:format)                      admin/includes#show
+                                        PUT        /admin/includes/:id(.:format)                      admin/includes#update
+                                        DELETE     /admin/includes/:id(.:format)                      admin/includes#destroy
+         batch_action_admin_admin_users POST       /admin/admin_users/batch_action(.:format)          admin/admin_users#batch_action
+                      admin_admin_users GET        /admin/admin_users(.:format)                       admin/admin_users#index
+                                        POST       /admin/admin_users(.:format)                       admin/admin_users#create
+                   new_admin_admin_user GET        /admin/admin_users/new(.:format)                   admin/admin_users#new
+                  edit_admin_admin_user GET        /admin/admin_users/:id/edit(.:format)              admin/admin_users#edit
+                       admin_admin_user GET        /admin/admin_users/:id(.:format)                   admin/admin_users#show
+                                        PUT        /admin/admin_users/:id(.:format)                   admin/admin_users#update
+                                        DELETE     /admin/admin_users/:id(.:format)                   admin/admin_users#destroy
+               batch_action_admin_roles POST       /admin/roles/batch_action(.:format)                admin/roles#batch_action
+                            admin_roles GET        /admin/roles(.:format)                             admin/roles#index
+                                        POST       /admin/roles(.:format)                             admin/roles#create
+                         new_admin_role GET        /admin/roles/new(.:format)                         admin/roles#new
+                        edit_admin_role GET        /admin/roles/:id/edit(.:format)                    admin/roles#edit
+                             admin_role GET        /admin/roles/:id(.:format)                         admin/roles#show
+                                        PUT        /admin/roles/:id(.:format)                         admin/roles#update
+                                        DELETE     /admin/roles/:id(.:format)                         admin/roles#destroy
+             batch_action_admin_options POST       /admin/options/batch_action(.:format)              admin/options#batch_action
+                          admin_options GET        /admin/options(.:format)                           admin/options#index
+                                        POST       /admin/options(.:format)                           admin/options#create
+                       new_admin_option GET        /admin/options/new(.:format)                       admin/options#new
+                      edit_admin_option GET        /admin/options/:id/edit(.:format)                  admin/options#edit
+                           admin_option GET        /admin/options/:id(.:format)                       admin/options#show
+                                        PUT        /admin/options/:id(.:format)                       admin/options#update
+                                        DELETE     /admin/options/:id(.:format)                       admin/options#destroy
+batch_action_admin_bigcommerce_accounts POST       /admin/bigcommerce_accounts/batch_action(.:format) admin/bigcommerce_accounts#batch_action
+             admin_bigcommerce_accounts GET        /admin/bigcommerce_accounts(.:format)              admin/bigcommerce_accounts#index
+                                        POST       /admin/bigcommerce_accounts(.:format)              admin/bigcommerce_accounts#create
+          new_admin_bigcommerce_account GET        /admin/bigcommerce_accounts/new(.:format)          admin/bigcommerce_accounts#new
+         edit_admin_bigcommerce_account GET        /admin/bigcommerce_accounts/:id/edit(.:format)     admin/bigcommerce_accounts#edit
+              admin_bigcommerce_account GET        /admin/bigcommerce_accounts/:id(.:format)          admin/bigcommerce_accounts#show
+                                        PUT        /admin/bigcommerce_accounts/:id(.:format)          admin/bigcommerce_accounts#update
+                                        DELETE     /admin/bigcommerce_accounts/:id(.:format)          admin/bigcommerce_accounts#destroy
+            batch_action_admin_accounts POST       /admin/accounts/batch_action(.:format)             admin/accounts#batch_action
+                         admin_accounts GET        /admin/accounts(.:format)                          admin/accounts#index
+                                        POST       /admin/accounts(.:format)                          admin/accounts#create
+                      new_admin_account GET        /admin/accounts/new(.:format)                      admin/accounts#new
+                     edit_admin_account GET        /admin/accounts/:id/edit(.:format)                 admin/accounts#edit
+                          admin_account GET        /admin/accounts/:id(.:format)                      admin/accounts#show
+                                        PUT        /admin/accounts/:id(.:format)                      admin/accounts#update
+                                        DELETE     /admin/accounts/:id(.:format)                      admin/accounts#destroy
+               batch_action_admin_users POST       /admin/users/batch_action(.:format)                admin/users#batch_action
+                            admin_users GET        /admin/users(.:format)                             admin/users#index
+                                        POST       /admin/users(.:format)                             admin/users#create
+                         new_admin_user GET        /admin/users/new(.:format)                         admin/users#new
+                        edit_admin_user GET        /admin/users/:id/edit(.:format)                    admin/users#edit
+                             admin_user GET        /admin/users/:id(.:format)                         admin/users#show
+                                        PUT        /admin/users/:id(.:format)                         admin/users#update
+                                        DELETE     /admin/users/:id(.:format)                         admin/users#destroy
+       batch_action_admin_include_types POST       /admin/include_types/batch_action(.:format)        admin/include_types#batch_action
+                    admin_include_types GET        /admin/include_types(.:format)                     admin/include_types#index
+                                        POST       /admin/include_types(.:format)                     admin/include_types#create
+                 new_admin_include_type GET        /admin/include_types/new(.:format)                 admin/include_types#new
+                edit_admin_include_type GET        /admin/include_types/:id/edit(.:format)            admin/include_types#edit
+                     admin_include_type GET        /admin/include_types/:id(.:format)                 admin/include_types#show
+                                        PUT        /admin/include_types/:id(.:format)                 admin/include_types#update
+                                        DELETE     /admin/include_types/:id(.:format)                 admin/include_types#destroy
+            batch_action_admin_comments POST       /admin/comments/batch_action(.:format)             admin/comments#batch_action
+                         admin_comments GET        /admin/comments(.:format)                          admin/comments#index
+                                        POST       /admin/comments(.:format)                          admin/comments#create
+                          admin_comment GET        /admin/comments/:id(.:format)                      admin/comments#show
+                  batch_action_comments POST       /comments/batch_action(.:format)                   comments#batch_action
+                               comments GET        /comments(.:format)                                comments#index
+                                        POST       /comments(.:format)                                comments#create
+                                comment GET        /comments/:id(.:format)                            comments#show
+                 new_admin_user_session GET        /admin/login(.:format)                             active_admin/devise/sessions#new
+                     admin_user_session POST       /admin/login(.:format)                             active_admin/devise/sessions#create
+             destroy_admin_user_session DELETE|GET /admin/logout(.:format)                            active_admin/devise/sessions#destroy
+                    admin_user_password POST       /admin/password(.:format)                          active_admin/devise/passwords#create
+                new_admin_user_password GET        /admin/password/new(.:format)                      active_admin/devise/passwords#new
+               edit_admin_user_password GET        /admin/password/edit(.:format)                     active_admin/devise/passwords#edit
+                                        PUT        /admin/password(.:format)                          active_admin/devise/passwords#update
+
+Routes for StripeEvent::Engine:
+root POST / stripe_event/webhook#event
