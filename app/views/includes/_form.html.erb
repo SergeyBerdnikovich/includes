@@ -1,3 +1,6 @@
+<!-- <link rel="stylesheet" type="text/css" href="/assets/bootstrap-wysihtml5-0.0.2.css"></link> -->
+<!-- <script src="/assets/wysihtml5-0.3.0_rc2.js"></script> -->
+<script src="/assets/bootstrap-wysihtml5-0.0.2.js"></script>
 <%= simple_form_for @include, :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.association  :include_type, as: :radio_buttons %>
 
@@ -6,7 +9,13 @@
 
   <% if @include.include_file.blank? %>
 
-  <%= f.input :content, as: :text %>
+  <%#= f.input :content, as: :text %>
+  <%= f.text_area :content, :style => "width: 500px; height: 200px", :id => 'editor' %>
+
+  <script type="text/javascript">
+  $('#editor').wysihtml5();
+</script>
+
   <% possible = action_possible(:html_uploads) %>
   <% if possible == true %>
   <%= f.input  :include_file, :as => :file %>
@@ -27,9 +36,6 @@ alert("You are unable to use this option at <%= current_user.account.plan.name %
 <%= f.input  :include_file, :as => :file, :label => 'Replace file' %>
 
   <% end %>
-
-
-
 
   <div class="form-actions">
 

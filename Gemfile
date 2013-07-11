@@ -9,6 +9,7 @@ gem "meta_search",    '>= 1.1.0.pre'
 gem "friendly_id", "~> 4.0.9"
 gem 'jquery-ui-rails'
 gem 'simple_form'
+gem 'bootstrap-wysihtml5-rails'
 
 group :assets do
 
