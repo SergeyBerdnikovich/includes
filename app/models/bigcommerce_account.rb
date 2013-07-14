@@ -22,14 +22,14 @@ class BigcommerceAccount < ActiveRecord::Base
     @account_id = @bigcommerce.account.id
 
     @pool = Thread.pool(4)  #thread pool to process requests multhithreaded
-
+    has_child_categories = Array.new
     api = Bigcommerce::Api.new({
       :store_url => @bigcommerce.store_url,
       :username  => @bigcommerce.username,
       :api_key   => @bigcommerce.api_key
     })
     @test = api.get_brands
-     Brand.where("account_id = ?",@account_id).delete_all
+    Brand.where("account_id = ?",@account_id).delete_all
     @test.each do |brand|
       p "brand " + brand["id"].to_s
       if brand["name"].blank? == false
@@ -45,9 +45,9 @@ class BigcommerceAccount < ActiveRecord::Base
       end
     end
     prods = 1
-    offset = 1 
+    offset = 1
     Product.where("account_id = ?",@account_id).delete_all
-      begin
+    begin
       @test = api.get_products('limit' => 200, 'page' => offset)
       prods = 0
       @test.each do |product|
@@ -84,25 +84,41 @@ class BigcommerceAccount < ActiveRecord::Base
       @test.each do |category|
         prods += 1
         if category["name"].blank? == false
+          has_child_categories.push(category['parent_id'])
           p "category #{category["id"]}"
           @cat = Category.where("account_id = ? AND categoryid = ?", @account_id, category["id"]).first
+
           @pool.process {
 
             if @cat
-              @cat.update_attributes(:parent_id => category["parent_id"],:name => category["name"],:description => category["description"],:page_title => category["page_title"],:image_file => category["image_file"],:image_tag => category["image_tag"],:url => category["url"])
+              @cat.update_attributes(:parent_id => category["parent_id"],:name => category["name"],:description => category["description"],:page_title => category["page_title"],:image_file => category["image_file"],:image_tag => category["image_tag"],:url => category["url"], :has_child => false)
               @cat.save
             else
-              Category.new(:account_id => @account_id, :categoryid => category["id"],:parent_id => category["parent_id"],:name => category["name"],:description => category["description"],:page_title => category["page_title"],:image_file => category["image_file"],:image_tag => category["image_tag"],:url => category["url"] ).save
+              Category.new(:account_id => @account_id, :categoryid => category["id"],:parent_id => category["parent_id"],:name => category["name"],:description => category["description"],:page_title => category["page_title"],:image_file => category["image_file"],:image_tag => category["image_tag"],:url => category["url"],:has_child => false ).save
             end
           }
         end
       end
       offset += 1
+      prods = 0 if prods != 250 #if there is less then maximum categories no reason to download more because next page will be empty
     rescue Exception => e
       p e
       p e.backtrace
       prods = 0
     end while prods != 0
+
+    #marking all categories with child
+    has_child_categories.each do |cat|
+      p "has child processing"
+      p cat
+      @cat = Category.where("account_id = ? AND categoryid = ?", @account_id, cat).first
+      if @cat
+
+      @cat.update_attribute(:has_child, true)
+      @cat.save
+      p "cat processed #{cat}"
+      end
+    end
 
     @products = Product.where('account_id = ? AND processed != 1 OR account_id = ? AND processed IS NULL',@account_id,@account_id).limit(5)
 

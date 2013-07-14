@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130629104415) do
+ActiveRecord::Schema.define(:version => 20130712124243) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -113,10 +113,8 @@ ActiveRecord::Schema.define(:version => 20130629104415) do
     t.string  "image_file"
     t.string  "image_tag"
     t.string  "url"
+    t.boolean "has_child"
   end
-
-  add_index "categories", ["account_id"], :name => "index_categories_on_account_id"
-  add_index "categories", ["categoryid"], :name => "index_categories_on_categoryid"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0

@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  resourcify
   after_create :create_account
   include ApplicationHelper
 
@@ -24,6 +25,7 @@ class User < ActiveRecord::Base
 
       @user = User.find(self.id)
       @user.account = @account
+      @user.add_role :admin
       @user.save
     end
   end

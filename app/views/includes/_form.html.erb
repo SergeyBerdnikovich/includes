@@ -10,12 +10,12 @@
   <% if @include.include_file.blank? %>
 
   <%#= f.input :content, as: :text %>
-  <%= f.text_area :content, :style => "width: 500px; height: 200px", :id => 'editor' %>
+  <%= f.text_area :content, :style => "width: 600px; height: 250px;margin-bottom:25px;", :id => 'editor' %>
 
   <script type="text/javascript">
   $('#editor').wysihtml5();
 </script>
-
+<br><br>
   <% possible = action_possible(:html_uploads) %>
   <% if possible == true %>
   <%= f.input  :include_file, :as => :file %>
@@ -32,7 +32,7 @@ alert("You are unable to use this option at <%= current_user.account.plan.name %
 
   <% else %>
 <label>Content is stored in file <%= link_to @include.include_file.url.gsub(/.*\//,""),@include.include_file.url,:target => "_blank" %></label><br>
- <%= f.input :remove_include_file, :as => :boolean, :label => 'Remove this file with update'%>
+<%= f.input :remove_include_file, :as => :boolean, :label => 'Remove this file with update'%>
 <%= f.input  :include_file, :as => :file, :label => 'Replace file' %>
 
   <% end %>
@@ -46,8 +46,8 @@ alert("You are unable to use this option at <%= current_user.account.plan.name %
                 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       include_path(@include),
                       :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }            %>
-                      <% end %>
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }  , :class => 'btn btn-danger'          %>
+    <% end %>
 
   </div>
 

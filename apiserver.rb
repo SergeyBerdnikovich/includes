@@ -123,7 +123,7 @@ class Server < EM::Connection
       code = process_simple_shortcode(code, account_id)
       return code
     else
-      p "object is nil"
+      code
     end
   end
 
@@ -285,7 +285,7 @@ class Server < EM::Connection
 
   def form_db_variables  #function to form variables that would be used instead of DB
     Fiber.new{
-      res = @sql.query("SELECT accounts.*, bigcommerce_accounts.store_url FROM accounts, bigcommerce_accounts WHERE bigcommerce_accounts.account_id = accounts.id") # form user hash
+      res = @sql.query("SELECT accounts.*, bigcommerce_accounts.store_url FROM accounts LEFT JOIN  bigcommerce_accounts ON bigcommerce_accounts.account_id = accounts.id") # form user hash
       @accounts = Hash.new
       @accounts_id = Hash.new
       res.to_a.each do |account|
@@ -464,6 +464,8 @@ class Server < EM::Connection
   end
 
   def check_limits(account_id, socket = nil,date = nil) #check limits and send alerts
+    p @accounts_id
+    p account_id
     plan_id =  @accounts_id[account_id]["plan_id"]
     p plan_id
     if plan_id && @month_stat[account_id]
@@ -490,10 +492,8 @@ class Server < EM::Connection
 
   def check_date(include_id)
 
-
+    begin
     if @options[include_id]
-
-
       if @options[include_id]['date_start']
         return false if DateTime.now < DateTime.strptime(@options[include_id]['date_start'],"%m/%d/%Y")
       end
@@ -503,6 +503,8 @@ class Server < EM::Connection
       if @options[include_id]['date_end']
         return false if DateTime.now > DateTime.strptime(@options[include_id]['date_end'],"%m/%d/%Y")
       end
+    end
+    rescue  #if there is no date or jibberish instead of date or no option I suppose there is no filters
     end
 
     return true
