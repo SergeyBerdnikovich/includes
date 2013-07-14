@@ -1,5 +1,5 @@
 class Account < ActiveRecord::Base
-  rolify :role_cname => 'Roles1'
+ 
   attr_accessible :name, :api_key ,:coupon ,:stripe_token ,:customer_id ,:last_4_digits, :plan_id
 
 

@@ -10,7 +10,11 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def destroy
-    current_user.account.delete
+    if current_user.has_role? "admin"
+      current_user.account.delete
+    else
+      current_user.delete
+    end
     super
   end
 

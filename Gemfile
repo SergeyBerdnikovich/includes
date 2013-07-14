@@ -31,7 +31,7 @@ gem "twitter-bootstrap-rails"
 
 gem "devise", ">= 2.2.3"
 gem "cancan", ">= 1.6.9"
-gem "rolify"
+gem "rolify",        :git => "git://github.com/EppO/rolify.git"
 gem "stripe", ">= 1.7.11"
 gem "stripe_event", ">= 0.4.0"
 #gem "quiet_assets", ">= 1.0.2", :group => :development

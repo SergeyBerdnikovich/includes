@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  resourcify
+  rolify :role_cname => 'Role'
   after_create :create_account
   include ApplicationHelper
 
