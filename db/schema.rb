@@ -118,6 +118,9 @@ ActiveRecord::Schema.define(:version => 20130715214941) do
     t.integer "product_sub_count"
   end
 
+  add_index "categories", ["account_id"], :name => "index_categories_on_account_id"
+  add_index "categories", ["categoryid"], :name => "index_categories_on_categoryid"
+
   create_table "category_products", :force => true do |t|
     t.integer  "account_id"
     t.integer  "productid"

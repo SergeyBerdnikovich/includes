@@ -9,3 +9,28 @@
 	color: #777777;
 	font-style:italic;
 }
+
+.formtastic li {
+  list-style: none !important;
+  margin: 10px 0 10px -30px !important;
+}
+.formtastic li#include_content_input {
+  margin-left: 0 !important;
+}
+
+.formtastic label {
+  float: left;
+  width: 100px;
+  text-align: right;
+  margin: 2px 10px;
+  background: none !important;
+  color: black !important;
+  font-weight: normal !important;
+  line-height: 20px !important;
+  text-shadow: none !important;
+}
+
+#include_content_input label {
+  float: none;
+  margin-left: -20px !important;
+}
