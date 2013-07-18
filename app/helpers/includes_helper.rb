@@ -11,6 +11,10 @@ module IncludesHelper
 			retval.gsub!(/#include_api_key#/mi, object.api_key)
 		end
 
+		if retval =~ /#include_id#/mi
+			retval.gsub!(/#include_id#/mi, object.id.to_s)
+		end
+
 		retval
 	end
 

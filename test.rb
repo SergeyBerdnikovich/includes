@@ -30,46 +30,46 @@ sqlconf = {
 
 $sql = nil
 
-def func
-       product = $sql.query("SELECT * FROM products WHERE productid = 2 LIMIT 1")
-       return product.to_a
-end
-
-def foo
-  return func
-end
-
- EventMachine.synchrony do
-
-p "starting"
-
-    p "starting1"
- $sql = EventMachine::Synchrony::ConnectionPool.new(size: 2) do
-      Mysql2::EM::Client.new(sqlconf)
+def form_tree_hash(account_id,cat_id = 0)
+  cat = $sql.query("SELECT * FROM categories WHERE account_id = 547 AND parent_id = #{cat_id}").to_a
+  if cat.size > 0
+    tree_hash = Hash.new
+    cat.each do |c|
+      tree_hash[c['categoryid']] = Hash.new
+      tree_hash[c['categoryid']] = form_tree_hash(c['categoryid'])
     end
-
-  p "result is:"
- p foo
-
-
+    return tree_hash
+  end
 end
 
-
-def async_fetch(url)
-  f = Fiber.current
-  http = EventMachine::HttpRequest.new(url).get :timeout => 10
-  http.callback { f.resume(http) }
-  http.errback { f.resume(http) }
-
-  return Fiber.yield
+def form_list_string(hash)
+  ret_str  = "<ul>"
+  hash.each do |key, val|
+    if val #if there are values thus this item have children. <ul><li> structure required
+    ret_str += "<li>category"+form_list_string(val)+"</li>"
+    else #only show as one record, <li>...<li>
+      ret_str += "<li>category</li>"
+    end
+  end
+  ret_str + "</ul>"
 end
 
-EventMachine.run do
-  Fiber.new{
-    puts "Setting up HTTP request #1"
-    data = async_fetch('http://www.google.com/')
-    puts "Fetched page #1: #{data.response_header.status}"
+EventMachine.synchrony do
 
+  p "starting"
+
+  p "starting1"
+  $sql = EventMachine::Synchrony::ConnectionPool.new(size: 2) do
+    Mysql2::EM::Client.new(sqlconf)
+  end
+ p "srtart"
+  cat_tree = Hash.new
+
+    cat_tree = form_tree_hash()
+    #p cat_tree
+    p form_list_string(cat_tree)
     EventMachine.stop
-  }.resume
+
+
 end
+

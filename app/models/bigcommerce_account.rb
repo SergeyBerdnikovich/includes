@@ -20,9 +20,11 @@ class BigcommerceAccount < ActiveRecord::Base
     require 'bigcommerce'
     @bigcommerce = bigcommerce_acc #BigcommerceAccount.find(params[:id])
     @account_id = @bigcommerce.account.id
+    categories_product_count = Hash.new
 
     @pool = Thread.pool(4)  #thread pool to process requests multhithreaded
     has_child_categories = Array.new
+   
     api = Bigcommerce::Api.new({
       :store_url => @bigcommerce.store_url,
       :username  => @bigcommerce.username,
@@ -47,13 +49,26 @@ class BigcommerceAccount < ActiveRecord::Base
     prods = 1
     offset = 1
     Product.where("account_id = ?",@account_id).delete_all
+    CategoryProduct.where("account_id = ?",@account_id).delete_all
+
     begin
       @test = api.get_products('limit' => 200, 'page' => offset)
       prods = 0
       @test.each do |product|
-        @pool.process {
+        
           prods += 1
+          p "product"
           p product["id"]
+          p product["categories"]
+          if product["categories"]
+            product["categories"].each do |cat|          
+              p cat
+              CategoryProduct.new(:account_id => @account_id, :productid => product["id"], :categoryid => cat).save
+              categories_product_count[cat] = 0 if categories_product_count[cat] == nil
+              categories_product_count[cat] += 1
+            end
+          end
+
           @product = Product.where("account_id = ? AND productid = ?", @account_id, product["id"]).first
           if @product
             if @product.updated_at != product['date_modified']
@@ -63,7 +78,7 @@ class BigcommerceAccount < ActiveRecord::Base
           else
             Product.new(:account_id => @account_id, :productid => product["id"],:name => product["name"],:type => product["type"],:sku => product["sku"],:description => product["description"],:availability => product["availability"],:availability_description => product["availability_description"],:price => product["price"],:cost_price => product["cost_price"],:retail_price => product["retail_price"],:sale_price => product["sale_price"],:calculated_price => product["calculated_price"],:inventory_level => product["inventory_level"],:warranty => product["warranty"],:weight => product["weight"],:width => product["width"],:height => product["height"],:depth => product["depth"],:total_sold => product["total_sold"],:date_created => product["date_created"],:brand_id => product["brand_id"],:view_count => product["view_count"],:page_title => product["page_title"],:date_modified => product["date_modified"],:condition => product["condition"],:upc => product["upc"],:custom_url => product["custom_url"], :updated_at => product['date_modified'], :processed => false).save
           end
-        }
+        
       end
       offset += 1
     rescue Exception => e
@@ -76,49 +91,48 @@ class BigcommerceAccount < ActiveRecord::Base
 
     #categories
     offset = 1
+    p "begin categories"
+     cats = Array.new
     begin
-      @test = api.get_categories('limit' => 250, 'page' => offset)
-      Category.where("account_id = ?",@account_id).delete_all
-      prods = 0
+       
 
+      @test = api.get_categories('limit' => 250, 'page' => offset)
+      
+      prods = 0
+     
       @test.each do |category|
         prods += 1
         if category["name"].blank? == false
+           cats.push(category["id"])
           has_child_categories.push(category['parent_id'])
           p "category #{category["id"]}"
-          @cat = Category.where("account_id = ? AND categoryid = ?", @account_id, category["id"]).first
-
-          @pool.process {
-
-            if @cat
+          @cat = Category.where("account_id = ? AND categoryid = ?", @account_id, category["id"]).first          
+         
+           if @cat
               @cat.update_attributes(:parent_id => category["parent_id"],:name => category["name"],:description => category["description"],:page_title => category["page_title"],:image_file => category["image_file"],:image_tag => category["image_tag"],:url => category["url"], :has_child => false)
               @cat.save
             else
               Category.new(:account_id => @account_id, :categoryid => category["id"],:parent_id => category["parent_id"],:name => category["name"],:description => category["description"],:page_title => category["page_title"],:image_file => category["image_file"],:image_tag => category["image_tag"],:url => category["url"],:has_child => false ).save
-            end
-          }
+            end     
+        else
+         p "NAME IS BLANK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"     
+         p category
         end
       end
       offset += 1
-      prods = 0 if prods != 250 #if there is less then maximum categories no reason to download more because next page will be empty
+      prods = 0 if prods < 249 #if there is less then maximum categories no reason to download more because next page will be empty
     rescue Exception => e
+      p "categories exception!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       p e
       p e.backtrace
       prods = 0
     end while prods != 0
+  p "deleting cats #{cats.join(",")}"
+    Category.where("account_id = ? AND categoryid NOT IN (#{cats.join(",")})",@account_id ).delete_all
 
     #marking all categories with child
-    has_child_categories.each do |cat|
-      p "has child processing"
-      p cat
-      @cat = Category.where("account_id = ? AND categoryid = ?", @account_id, cat).first
-      if @cat
+    p categories_product_count
 
-      @cat.update_attribute(:has_child, true)
-      @cat.save
-      p "cat processed #{cat}"
-      end
-    end
 
     @products = Product.where('account_id = ? AND processed != 1 OR account_id = ? AND processed IS NULL',@account_id,@account_id).limit(5)
 
@@ -156,6 +170,48 @@ class BigcommerceAccount < ActiveRecord::Base
       end
       @products = Product.where('account_id = ? AND processed != 1 OR account_id = ? AND processed IS NULL',@account_id,@account_id).limit(5)
     end while @products.size != 0
+
+
+      categories_product_count.each do |cat,val|
+      p "cat processed #{cat}"
+      p cat
+      p val
+      @cat = Category.where("account_id = ? AND categoryid = ?", @account_id, cat).first
+      p @cat
+      if @cat
+        @cat.update_attribute(:product_count, val)
+        @cat.update_attribute(:product_sub_count, val)
+      #  @cat.save
+        p "cat processed #{cat}"
+        p cat
+        p val
+       # exit!
+
+      end
+      #exit!
+    end
+
+
+    has_child_categories.each do |cat|
+      p "has child processing"
+      p cat
+      @cat1 = Category.where("account_id = ? AND categoryid = ?", @account_id, cat).first
+      if @cat1
+
+        @cat1.update_attribute(:has_child, true)
+       # @cat.save
+        p "cat processed #{cat}"
+      end
+    end
+
+    categories_who_are_parents = Category.where(" account_id = ? AND categoryid IN (SELECT parent_id AS categoryid FROM categories WHERE account_id = ? )",@account_id,@account_id)
+    categories_who_are_parents.each{|cat|
+      count = Category.find_by_sql("SELECT SUM(product_count) as product_count FROM categories WHERE account_id = #{@account_id} AND parent_id = #{cat.categoryid} GROUP BY parent_id")
+
+       cat.update_attribute(:product_sub_count, count[0].product_count)
+
+      
+    }
 
 
   end

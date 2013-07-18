@@ -1,8 +1,10 @@
 source 'https://rubygems.org'
 gem 'rails', '3.2.13'
-
+gem 'rich'
 gem 'mysql2'
 gem 'activeadmin'
+
+  gem 'formtastic'
 
 gem 'delayed_job_active_record'
 gem "meta_search",    '>= 1.1.0.pre'

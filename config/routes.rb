@@ -3,6 +3,11 @@ Includes::Application.routes.draw do
 
 
 
+  resources :category_products
+
+
+  mount Rich::Engine => '/rich', :as => 'rich'
+
   resources :categories
 
 
